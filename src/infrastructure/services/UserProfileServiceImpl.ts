@@ -5,7 +5,7 @@ export class UserProfileServiceImpl implements UserProfileService {
     async createProfile(userId: number, profileData: UserProfilePayload): Promise<UserProfile> {
         return UserProfile.create({
             userId,
-            fotoBase64: profileData.fotoBase64 ?? null,
+            foto: profileData.foto ?? null,
             telefono: profileData.telefono ?? null,
             correo: profileData.correo ?? null,
             fechaNac: profileData.fechaNac ? new Date(profileData.fechaNac) : null,
@@ -24,7 +24,7 @@ export class UserProfileServiceImpl implements UserProfileService {
         }
 
         await profile.update({
-            fotoBase64: profileData.fotoBase64 ?? profile.fotoBase64,
+            foto: profileData.foto ?? profile.foto,
             telefono: profileData.telefono ?? profile.telefono,
             correo: profileData.correo ?? profile.correo,
             fechaNac: profileData.fechaNac ? new Date(profileData.fechaNac) : profile.fechaNac,

@@ -15,7 +15,6 @@ export class UserProfileController {
             sendResponse(res, 200, "Perfil encontrado", {
                 id: profile.id,
                 userId: profile.userId,
-                fotoBase64: profile.fotoBase64,
                 telefono: profile.telefono,
                 correo: profile.correo,
                 fechaNac: profile.fechaNac,
@@ -29,9 +28,9 @@ export class UserProfileController {
     async createUserProfile(req: Request, res: Response): Promise<void> {
         try {
             const userId = Number(req.params.id);
-            const { fotoBase64, telefono, correo, fechaNac, genero } = req.body;
+            const { telefono, correo, fechaNac, genero } = req.body;
             const profile = await this.userProfileService.createProfile(userId, {
-                fotoBase64: fotoBase64 ?? null,
+                foto: req.file?.buffer ?? null,
                 telefono: telefono ?? null,
                 correo: correo ?? null,
                 fechaNac: fechaNac ?? null,
@@ -40,7 +39,6 @@ export class UserProfileController {
             sendResponse(res, 201, "Perfil creado exitosamente", {
                 id: profile.id,
                 userId: profile.userId,
-                fotoBase64: profile.fotoBase64,
                 telefono: profile.telefono,
                 correo: profile.correo,
                 fechaNac: profile.fechaNac,
@@ -54,9 +52,9 @@ export class UserProfileController {
     async updateUserProfile(req: Request, res: Response): Promise<void> {
         try {
             const userId = Number(req.params.id);
-            const { fotoBase64, telefono, correo, fechaNac, genero } = req.body;
+            const { telefono, correo, fechaNac, genero } = req.body;
             const profile = await this.userProfileService.updateProfile(userId, {
-                fotoBase64: fotoBase64 ?? null,
+                ...(req.file ? { foto: req.file.buffer } : {}),
                 telefono: telefono ?? null,
                 correo: correo ?? null,
                 fechaNac: fechaNac ?? null,
@@ -69,12 +67,24 @@ export class UserProfileController {
             sendResponse(res, 200, "Perfil actualizado exitosamente", {
                 id: profile.id,
                 userId: profile.userId,
-                fotoBase64: profile.fotoBase64,
                 telefono: profile.telefono,
                 correo: profile.correo,
                 fechaNac: profile.fechaNac,
                 genero: profile.genero,
             });
+        } catch {
+            sendResponse(res, 500, "Error interno del servidor");
+        }
+    }
+
+    async getUserProfilePhoto(req: Request, res: Response): Promise<void> {
+        try {
+            const profile = await this.userProfileService.getProfileByUserId(Number(req.params.id));
+            if (!profile?.foto) {
+                sendResponse(res, 404, "Fotografía no encontrada");
+                return;
+            }
+            res.type("application/octet-stream").send(profile.foto);
         } catch {
             sendResponse(res, 500, "Error interno del servidor");
         }

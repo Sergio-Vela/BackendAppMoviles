@@ -14,7 +14,6 @@ export class RegisterController {
                 apellido,
                 usuario,
                 password,
-                fotoBase64,
                 telefono,
                 correo,
                 fechaNac,
@@ -28,7 +27,7 @@ export class RegisterController {
 
             const user = await this.userService.createUser(nombre, apellido, usuario, password);
             const profile = await this.userProfileService.createProfile(user.id, {
-                fotoBase64: fotoBase64 ?? null,
+                foto: req.file?.buffer ?? null,
                 telefono: telefono ?? null,
                 correo: correo ?? null,
                 fechaNac: fechaNac ?? null,
@@ -45,7 +44,6 @@ export class RegisterController {
                 profile: {
                     id: profile.id,
                     userId: profile.userId,
-                    fotoBase64: profile.fotoBase64,
                     telefono: profile.telefono,
                     correo: profile.correo,
                     fechaNac: profile.fechaNac,

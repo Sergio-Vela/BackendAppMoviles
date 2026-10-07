@@ -1,7 +1,7 @@
 import { UserProfile } from "../../infrastructure/models/userProfileModel";
 
 export type UserProfilePayload = {
-    fotoBase64?: string | null;
+    foto?: Buffer | null;
     telefono?: string | null;
     correo?: string | null;
     fechaNac?: Date | string | null;

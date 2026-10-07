@@ -4,7 +4,7 @@ import { sequelize } from "../database/sequelize";
 export class UserProfile extends Model {
     declare public id: number;
     declare public userId: number;
-    declare public fotoBase64: string | null;
+    declare public foto: Buffer | null;
     declare public telefono: string | null;
     declare public correo: string | null;
     declare public fechaNac: Date | null;
@@ -22,8 +22,8 @@ UserProfile.init(
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        fotoBase64: {
-            type: DataTypes.TEXT("medium"),
+        foto: {
+            type: DataTypes.BLOB,
             allowNull: true,
         },
         telefono: {
