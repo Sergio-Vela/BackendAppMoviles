@@ -7,6 +7,7 @@ export class User extends Model {
     declare public apellido: string;
     declare public usuario: string;
     declare public password: string;
+    declare public rol: "administrador" | "censista" | null;
 }
 
 User.init(
@@ -32,6 +33,13 @@ User.init(
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        rol: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: {
+                isIn: [["administrador", "censista"]],
+            },
         },
     },
     {

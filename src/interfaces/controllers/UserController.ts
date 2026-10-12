@@ -14,7 +14,7 @@ export class UserController {
 				sendResponse(res, 400, "Faltan campos obligatorios: nombre, apellido, usuario y password");
 				return;
 			}
-			const user = await this.userService.createUser(nombre, apellido, usuario, password);
+			const user = await this.userService.createUser(nombre, apellido, usuario, password, "censista");
 			sendResponse(res, 201, "Usuario creado exitosamente", this.publicUser(user));
 		} catch {
 			sendResponse(res, 500, "Error interno del servidor");
@@ -117,8 +117,7 @@ export class UserController {
 		}
 	}
 
-	private publicUser(user: { id: number; nombre: string; apellido: string; usuario: string }) {
-		return { id: user.id, nombre: user.nombre, apellido: user.apellido, usuario: user.usuario };
+	private publicUser(user: { id: number; nombre: string; apellido: string; usuario: string; rol: string | null }) {
+		return { id: user.id, nombre: user.nombre, apellido: user.apellido, usuario: user.usuario, rol: user.rol };
 	}
 }
-

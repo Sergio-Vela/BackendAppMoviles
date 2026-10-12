@@ -25,7 +25,7 @@ export class RegisterController {
                 return;
             }
 
-            const user = await this.userService.createUser(nombre, apellido, usuario, password);
+            const user = await this.userService.createUser(nombre, apellido, usuario, password, "censista");
             const profile = await this.userProfileService.createProfile(user.id, {
                 foto: req.file?.buffer ?? null,
                 telefono: telefono ?? null,
@@ -40,6 +40,7 @@ export class RegisterController {
                     nombre: user.nombre,
                     apellido: user.apellido,
                     usuario: user.usuario,
+                    rol: user.rol,
                 },
                 profile: {
                     id: profile.id,

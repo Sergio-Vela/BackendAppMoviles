@@ -1,7 +1,9 @@
 import { User } from "../../infrastructure/models/userModel";
 
+export type UserRole = "administrador" | "censista";
+
 export interface UserService {
-    createUser(nombre: string, apellido: string, usuario: string, password: string): Promise<User>;
+    createUser(nombre: string, apellido: string, usuario: string, password: string, rol: UserRole): Promise<User>;
     getUserById(id: number): Promise<User | null>;
     getUserByUsername(usuario: string): Promise<User | null>;
     login(usuario: string, password: string): Promise<User | null>;

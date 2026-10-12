@@ -1,11 +1,11 @@
-import { UserService } from "../../domain/services/UserService";
+import { UserRole, UserService } from "../../domain/services/UserService";
 import { User } from "../models/userModel";
 import bcrypt from "bcrypt";
 
 export class UserServiceImpl implements UserService {
-    async createUser(nombre: string, apellido: string, usuario: string, password: string): Promise<User> {
+    async createUser(nombre: string, apellido: string, usuario: string, password: string, rol: UserRole): Promise<User> {
         const passwordHash = await bcrypt.hash(password, 12);
-        return User.create({ nombre, apellido, usuario, password: passwordHash });
+        return User.create({ nombre, apellido, usuario, password: passwordHash, rol });
     }
 
     async getUserById(id: number): Promise<User | null> {
