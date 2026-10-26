@@ -104,6 +104,16 @@ export class CensoController {
         }
     }
 
+    async getNormal(_req: Request, res: Response): Promise<void> {
+        try {
+            const censos = await this.censoService.getNormal();
+            sendResponse(res, 200, "Censos normales encontrados", censos.map((censo) => this.toResponse(censo)));
+        } catch (error) {
+            console.error("Error al consultar los censos normales:", error);
+            sendResponse(res, 500, "Error interno del servidor");
+        }
+    }
+
     private validateCreateInput(body: unknown): CensoCreateInput | null {
         if (!this.isRecord(body)) {
             return null;

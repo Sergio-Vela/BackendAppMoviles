@@ -14,5 +14,6 @@ export interface CensoService {
     getAll(): Promise<Censo[]>;
     getById(id: number): Promise<Censo | null>;
     getMapPoints(): Promise<Censo[]>;
+    getNormal(): Promise<Censo[]>;
     getMassive(): Promise<Censo[]>;
 }

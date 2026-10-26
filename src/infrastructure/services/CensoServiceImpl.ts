@@ -38,8 +38,16 @@ export class CensoServiceImpl implements CensoService {
     }
 
     async getMassive(): Promise<Censo[]> {
+        return this.getByOrigin("MASIVA");
+    }
+
+    async getNormal(): Promise<Censo[]> {
+        return this.getByOrigin("NORMAL");
+    }
+
+    private async getByOrigin(origenCarga: "NORMAL" | "MASIVA"): Promise<Censo[]> {
         return Censo.findAll({
-            where: { origenCarga: "MASIVA" },
+            where: { origenCarga },
             order: [["fechaCreacion", "DESC"]],
         });
     }

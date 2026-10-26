@@ -20,6 +20,7 @@ Se reutiliza el JWT existente: el `sub` identifica al usuario. El middleware val
 | `GET /api/censos` | `administrador` | Lista censos. |
 | `GET /api/censos/:id` | `administrador` | Devuelve el censo identificado. |
 | `GET /api/censos/mapa` | `administrador` | Devuelve sólo los campos necesarios para el mapa. |
+| `GET /api/censos/normales` | `administrador` | Lista sólo `origenCarga=NORMAL`. |
 | `GET /api/censos/masivos` | `administrador` | Lista sólo `origenCarga=MASIVA`. |
 
 Los nombres y apellidos deben ser cadenas no vacías de hasta 255 caracteres; `totalMiembros` debe ser entero positivo; `cantidadTelevisiones`, entero no negativo; latitud y longitud deben ser números finitos dentro de sus rangos. Se rechazan números enviados como texto.
@@ -50,6 +51,7 @@ La respuesta exitosa es 201 y contiene el censo creado. Aunque se agreguen `"cre
 - `GET /api/censos`
 - `GET /api/censos/1`
 - `GET /api/censos/mapa`
+- `GET /api/censos/normales`
 - `GET /api/censos/masivos`
 
 Todas requieren el token de un usuario cuyo rol actual sea `administrador`. Las respuestas mantienen el envoltorio del proyecto: `standardResponse` y `body`. El endpoint de mapa proyecta únicamente `id`, `nombre`, `apellido`, `totalMiembros`, `cantidadTelevisiones`, `latitud`, `longitud`, `origenCarga` y `fechaCreacion`.
