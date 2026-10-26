@@ -23,7 +23,13 @@ export class JwtService {
 
     verifyToken(token: string): AuthTokenPayload {
         const payload = jwt.verify(token, this.secret);
-        if (typeof payload === "string" || !payload.sub || typeof payload.usuario !== "string") {
+        if (
+            typeof payload === "string" ||
+            typeof payload.sub !== "string" ||
+            !/^[1-9]\d*$/.test(payload.sub) ||
+            !Number.isSafeInteger(Number(payload.sub)) ||
+            typeof payload.usuario !== "string"
+        ) {
             throw new Error("Invalid token payload");
         }
         return { userId: Number(payload.sub), usuario: payload.usuario };
